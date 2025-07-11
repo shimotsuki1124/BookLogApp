@@ -1,0 +1,32 @@
+{% extends "_navbar.html" %}
+{% block content %}
+
+<h1 class="mb-4">📝 メモ</h1>
+
+<h2 class="mb-3">{{ book.title }}</h2>
+
+<form action="/memo/{{ book.id }}" method="post" class="mb-4">
+  <div class="mb-3">
+    <label for="content" class="form-label">メモ内容:</label>
+    <textarea name="content" class="form-control" rows="4" required></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">保存</button>
+</form>
+
+<h3 class="mb-3">これまでのメモ</h3>
+
+<ul class="list-group">
+  {% for memo in memos %}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div>{{ memo.content }}</div>
+        <small class="text-muted">{{ memo.timestamp }}</small>
+      </div>
+      <form action="/delete_memo/{{ memo.id }}" method="post">
+        <button class="btn btn-sm btn-outline-danger">削除</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
