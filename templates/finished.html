@@ -1,0 +1,36 @@
+{% extends "_navbar.html" %}
+{% block content %}
+
+<h1 class="mb-4">📚 読了した本</h1>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  {% for book in books %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{ book.thumbnail }}" class="img-fluid rounded-start" alt="No Image">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text"><small class="text-muted">{{ book.author }}</small></p>
+            <p class="card-text">ページ数: {{ book.page_count }}</p>
+            <p class="card-text">読了日: {{ book.finished_date }}</p>
+            <div class="d-flex gap-2">
+              <form action="/delete_finished/{{ book.id }}" method="post">
+                <button class="btn btn-danger btn-sm">削除</button>
+              </form>
+              <form action="/memo/{{ book.id }}" method="get">
+                <button class="btn btn-secondary btn-sm">メモを見る</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "_navbar.html" %}
+{% block content %}
+
+<h1 class="mb-4">📘 書籍検索</h1>
+
+<form class="mb-4" action="/search" method="get">
+  <div class="input-group">
+    <input type="text" class="form-control" name="q" placeholder="書籍タイトルを入力" required>
+    <button class="btn btn-primary" type="submit">検索</button>
+  </div>
+</form>
+
+
+{% if books %}
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for book in books %}
+    <div class="col">
+      <div class="card h-100">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ book.thumbnail }}" class="img-fluid rounded-start" alt="No Image">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ book.title }}</h5>
+              <p class="card-text"><small class="text-muted">{{ book.authors }}</small></p>
+              <p class="card-text">{{ book.description[:100] }}...</p>
+              <form action="/add" method="post">
+                <input type="hidden" name="title" value="{{ book.title }}">
+                <input type="hidden" name="author" value="{{ book.authors }}">
+                <input type="hidden" name="thumbnail" value="{{ book.thumbnail }}">
+                <input type="hidden" name="description" value="{{ book.description }}">
+                <input type="hidden" name="pageCount" value="{{ book.pageCount }}">
+                <button type="submit" class="btn btn-success btn-sm">追加</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% endblock %}

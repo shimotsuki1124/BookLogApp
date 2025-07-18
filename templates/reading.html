@@ -1,0 +1,49 @@
+{% extends "_navbar.html" %}
+{% block content %}
+
+<h1 class="mb-4">📖 読書中の本</h1>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  {% for book in books %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{ book.thumbnail }}" class="img-fluid rounded-start" alt="No Image">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text"><small class="text-muted">{{ book.author }}</small></p>
+            <p>ページ数: {{ book.page_count }}<br>現在: {{ book.current_page }}ページ</p>
+            <div class="progress mb-2">
+              <div class="progress-bar" role="progressbar" style="width: {{ book.progress }}%;" aria-valuenow="{{ book.progress }}" aria-valuemin="0" aria-valuemax="100">
+                {{ book.progress }}%
+              </div>
+            </div>
+            <form action="/update/{{ book.id }}" method="post" class="mb-2">
+              <div class="input-group">
+                <input type="number" class="form-control" name="current_page" min="0" max="{{ book.page_count }}" required>
+                <button class="btn btn-primary" type="submit">更新</button>
+              </div>
+            </form>
+            <div class="d-flex gap-2">
+              <form action="/finish/{{ book.id }}" method="post">
+                <button class="btn btn-success btn-sm">読了</button>
+              </form>
+              <form action="/delete/{{ book.id }}" method="post">
+                <button class="btn btn-danger btn-sm">削除</button>
+              </form>
+              <form action="/memo/{{ book.id }}" method="get">
+                <button class="btn btn-secondary btn-sm">メモを書く</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
